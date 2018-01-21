@@ -24,7 +24,7 @@ const r: string[] = prefix('r', commonPlusY);
 const h: string[] = prefix('h', commonPlusY);
 const n: string[] = prefix('n', commonPlusY);
 
-const strings: string[] = a.concat(
+const elements: string[] = a.concat(
   e,
   h,
   i,
@@ -44,4 +44,4 @@ const strings: string[] = a.concat(
   prefix('sp', [commonPlusY, h, l]),
 ).sort();
 
-export default strings;
+export default elements;
