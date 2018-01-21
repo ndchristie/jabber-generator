@@ -6,6 +6,7 @@ declare class Generator {
         elements?: string[];
         filters?: Function[];
     });
+    addFilter(filter: Function): void;
     randomElement({filters, prefix, isInitial, isTerminal}?: {
         filters?: Function[];
         prefix?: string;

@@ -26,6 +26,6 @@ var l = prefix('l', commonPlusY);
 var r = prefix('r', commonPlusY);
 var h = prefix('h', commonPlusY);
 var n = prefix('n', commonPlusY);
-var elements = a.concat(e, h, i, l, n, o, r, u, prefix(['j', 'y'], commonVowels), prefix(['dw', 'gw', 'kw', 'm', 'sc', 'tw', 'v', 'x', 'z', 'zw'], commonPlusY), prefix(['ch', 'd', 'st', 't', 'th', 'w'], [commonPlusY, r]), prefix(['b', 'c', 'f', 'sch'], [commonPlusY, l, r]), prefix(['g', 'k', 'sk'], [commonPlusY, l, n, r]), prefix('p', [commonPlusY, h, l, n, r]), prefix('qu', [a, e, i, o]), prefix('s', [commonPlusY, h, l]), prefix('sp', [commonPlusY, h, l])).sort();
+var elements = a.concat(e, h, i, l, n, o, r, u, prefix(['j', 'y'], commonVowels), prefix(['dw', 'gw', 'kw', 'm', 'sc', 'tw', 'v', 'x', 'z', 'zw'], commonPlusY), prefix(['ch', 'd', 'st', 't', 'th', 'w'], [commonPlusY, r]), prefix(['b', 'c', 'f', 'sch'], [commonPlusY, l, r]), prefix(['g', 'k', 'sk'], [commonPlusY, l, n, r]), prefix('p', [commonPlusY, h, l, r]), prefix('pn', [commonVowels]), prefix('qu', [a, e, i, o]), prefix('s', [commonPlusY, h, l]), prefix('sp', [commonPlusY, h, l])).sort();
 exports.default = elements;
 //# sourceMappingURL=default-elements.js.map

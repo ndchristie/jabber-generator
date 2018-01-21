@@ -37,7 +37,7 @@ describe('Jabber Generator', () => {
       expect(defaultGenerator.filters[defaultGenerator.filters.length - 1])
         .to.equal(filter);
     });
-    it('Warns if no element can pass filter', () => {
+    it('Warns if no element can pass filters', () => {
       const warningStub = sandbox.stub(console, 'warn');
       defaultGenerator.addFilter(() => false);
       expect(warningStub.called).to.be.true;

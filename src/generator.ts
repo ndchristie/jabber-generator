@@ -19,10 +19,12 @@ class Generator {
   }
 
   addFilter(filter: Function) {
-    if (!this.elements.some(str => filter(str, { prefix: '' }))) {
-      console.warn(`No element passed filter: ${filter.name || filter.toString()}`);
-    }
     this.filters.push(filter);
+    try {
+      this.randomElement();
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   randomElement({
