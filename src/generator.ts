@@ -9,8 +9,9 @@ class Generator {
   randomString(): string {
     return this.strings[Math.floor(Math.random() * this.strings.length)];
   }
-  randomWord(): string {
-    return this.randomString() + this.randomString();
+  randomWord(substrings: number = 2): string {
+    const rec = (togo): string => (togo > 0) ? rec(togo - 1) + this.randomString() : '';
+    return rec(substrings);
   }
 }
 
