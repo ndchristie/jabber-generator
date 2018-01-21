@@ -6,13 +6,18 @@ class Generator {
   constructor(strings: string[] = defaultStrings) {
     this.strings = strings;
   }
-  filterStrings(...filters: { (str: string): boolean; }[]): string[] {
-    return this.strings.filter(str => filters.every(rule => rule(str)));
-  }
   randomString({ filters = [] }: { filters?: { (str: string): boolean; }[] } = {}): string {
-    const filteredStrings = this.filterStrings(...filters);
-    return filteredStrings[Math.floor(Math.random() * filteredStrings.length)];
+    const candidates = this.strings.slice();
+    let candidate: string;
+    do {
+      if (candidates.length === 0) {
+        throw new RangeError('No string could be found that passed every filter');
+      }
+      candidate = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
+    } while (!filters.every(rule => rule(candidate)));
+    return candidate;
   }
+  // make a rule reducer-link (acc, value, index) => {}
   randomWord(substrings: number = 2): string {
     const rec = (togo): string => (togo > 0) ? rec(togo - 1) + this.randomString() : '';
     return rec(substrings);

@@ -23,13 +23,6 @@ describe('Jabber Generator', () => {
     });
   });
 
-  describe('filterStrings', () => {
-    it('Returns the list of strings filtered accordign to an array of filters', () => {
-      expect(generator.filterStrings(str => str.match(/^b/)).every(str => str.match(/^b/)))
-        .to.be.true;
-    });
-  });
-
   describe('randomString', () => {
     it('Returns a string from the set of strings', () => {
       expect(generator.randomString()).to.be.a('string');
@@ -37,13 +30,21 @@ describe('Jabber Generator', () => {
     });
     it('Takes optional filters to filter the set of possible strings', () => {
       let i = 0;
+      const filterSpy = sandbox.spy(str => !!str.match(/^b/));
+      const filter = str => filterSpy(str);
+
       expect(new Generator(['foo', 'bizz', 'buzz']).randomString({
-        filters: [str => !!str.match(/^b/)],
+        filters: [filter],
       }))
         .to.be.a('string')
         .with.lengthOf(4)
         .and.match(/^b/);
       i += 1;
+      expect(filterSpy.called).to.be.true;
+
+      expect(() => new Generator(['foo', 'bizz', 'buzz']).randomString({
+        filters: [str => str.length > 5],
+      })).to.throw(RangeError);
     });
   });
 
