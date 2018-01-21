@@ -1,7 +1,9 @@
+import defaultStrings from './default-strings';
+
 class Generator {
   seed: string;
   strings: string[];
-  constructor(strings: string[]) {
+  constructor(strings: string[] = defaultStrings) {
     this.strings = strings;
   }
   randomString() {

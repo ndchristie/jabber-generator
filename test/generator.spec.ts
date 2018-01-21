@@ -1,23 +1,25 @@
 import { expect } from 'chai';
-import Generator from'../src/generator';
+import { default as Generator } from '../src/generator';
+import defaultStrings from '../src/default-strings';
 
 describe('Jabber Generator', () => {
-  let jabber;
+  let generator;
 
   beforeEach(() => {
-    jabber = new Generator(['foo', 'bar']);
+    generator = new Generator();
   });
 
   describe('constructor', () => {
     it('Takes an array of strings to generate with', () => {
-      expect(jabber.strings).to.deep.equal(['foo', 'bar']);
+      expect(generator.strings).to.deep.equal(defaultStrings);
+      expect(new Generator(['foo', 'bar']).strings).to.deep.equal(['foo', 'bar']);
     });
   });
 
   describe('randomString', () => {
     it('Returns a string from the set of strings', () => {
-      expect(jabber.randomString()).to.be.a('string');
-      expect(jabber.strings).to.include(jabber.randomString());
+      expect(generator.randomString()).to.be.a('string');
+      expect(generator.strings).to.include(generator.randomString());
     });
   });
 });
