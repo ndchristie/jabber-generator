@@ -6,8 +6,11 @@ class Generator {
   constructor(strings: string[] = defaultStrings) {
     this.strings = strings;
   }
-  randomString() {
+  randomString(): string {
     return this.strings[Math.floor(Math.random() * this.strings.length)];
+  }
+  randomWord(): string {
+    return this.randomString() + this.randomString();
   }
 }
 
