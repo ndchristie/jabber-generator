@@ -14,7 +14,15 @@ class Generator {
     filters?: Function[],
   } = {}) {
     this.elements = elements;
-    this.filters = filters;
+    this.filters = [];
+    filters.forEach(filter => this.addFilter(filter));
+  }
+
+  addFilter(filter: Function) {
+    if (!this.elements.some(str => filter(str, { prefix: '' }))) {
+      console.warn(`No element passed filter: ${filter.name || filter.toString()}`);
+    }
+    this.filters.push(filter);
   }
 
   randomElement({
@@ -33,7 +41,7 @@ class Generator {
     let candidate: string;
     do {
       if (candidates.length === 0) {
-        throw new RangeError('No string could be found that passed every filter');
+        throw new RangeError('No element passed every filter');
       }
       candidate = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
     } while (!allFilters.every(filter => filter(candidate, { prefix, isInitial, isTerminal })));

@@ -4,12 +4,12 @@ import { default as Generator } from '../src/generator';
 import defaultElements from '../src/default-elements';
 
 describe('Jabber Generator', () => {
-  let generator;
+  let defaultGenerator;
   let sandbox: sinon.SinonSandbox;
   let fbbGen;
 
   beforeEach(() => {
-    generator = new Generator();
+    defaultGenerator = new Generator();
     fbbGen = new Generator({
       elements: ['foo', 'bizz', 'buzz'],
       filters: [],
@@ -23,17 +23,31 @@ describe('Jabber Generator', () => {
 
   describe('constructor', () => {
     it('Takes an array of string elements to generate with', () => {
-      expect(generator.elements).to.deep.equal(defaultElements);
+      expect(defaultGenerator.elements).to.deep.equal(defaultElements);
       expect(new Generator({
         elements: ['foo', 'bar'],
       }).elements).to.deep.equal(['foo', 'bar']);
     });
   });
 
+  describe('addFilter', () => {
+    it('Pushes a filter function into filters', () => {
+      const filter = () => true;
+      defaultGenerator.addFilter(filter);
+      expect(defaultGenerator.filters[defaultGenerator.filters.length - 1])
+        .to.equal(filter);
+    });
+    it('Warns if no element can pass filter', () => {
+      const warningStub = sandbox.stub(console, 'warn');
+      defaultGenerator.addFilter(() => false);
+      expect(warningStub.called).to.be.true;
+    });
+  });
+
   describe('randomElement', () => {
     it('Returns a string from the set of elements', () => {
-      expect(generator.randomElement()).to.be.a('string');
-      expect(generator.elements).to.include(generator.randomElement());
+      expect(defaultGenerator.randomElement()).to.be.a('string');
+      expect(defaultGenerator.elements).to.include(defaultGenerator.randomElement());
     });
 
     describe('filters', () => {
@@ -121,7 +135,7 @@ describe('Jabber Generator', () => {
 
   describe('randomWord', () => {
     it('Returns a word created by combining from the set of elements', () => {
-      expect(generator.randomWord()).to.be.a('string').with.length.above(1);
+      expect(defaultGenerator.randomWord()).to.be.a('string').with.length.above(1);
       expect(new Generator({
         elements: ['foo', 'bar'],
         filters: [],
@@ -132,7 +146,7 @@ describe('Jabber Generator', () => {
     });
 
     it('Takes a number of elements to generate', () => {
-      expect(generator.randomWord(3)).to.be.a('string').with.length.above(2);
+      expect(defaultGenerator.randomWord(3)).to.be.a('string').with.length.above(2);
       const foobarGen = new Generator({
         elements: ['foo', 'bar'],
         filters: [],
