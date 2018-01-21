@@ -6,9 +6,14 @@ import defaultElements from '../src/default-elements';
 describe('Jabber Generator', () => {
   let generator;
   let sandbox: sinon.SinonSandbox;
+  let fbbGen;
 
   beforeEach(() => {
     generator = new Generator();
+    fbbGen = new Generator({
+      elements: ['foo', 'bizz', 'buzz'],
+      filters: [],
+    });
     sandbox = createSandbox();
   });
 
@@ -19,7 +24,9 @@ describe('Jabber Generator', () => {
   describe('constructor', () => {
     it('Takes an array of string elements to generate with', () => {
       expect(generator.elements).to.deep.equal(defaultElements);
-      expect(new Generator(['foo', 'bar']).elements).to.deep.equal(['foo', 'bar']);
+      expect(new Generator({
+        elements: ['foo', 'bar'],
+      }).elements).to.deep.equal(['foo', 'bar']);
     });
   });
 
@@ -33,7 +40,7 @@ describe('Jabber Generator', () => {
       it('Uses supplied filters to eliminate candidates', () => {
         let i = 0;
         const filterSpy = sandbox.spy(str => !!str.match(/^b/));
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [filterSpy],
         }))
           .to.be.a('string')
@@ -44,14 +51,14 @@ describe('Jabber Generator', () => {
       });
 
       it('Throws a range error if candidates are reduced to zero', () => {
-        expect(() => new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(() => fbbGen.randomElement({
           filters: [() => false],
         })).to.throw(RangeError);
       });
 
       it('Calls a filter no more than once per candidate', () => {
         const filterSpy = sandbox.spy(() => false);
-        expect(() => new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(() => fbbGen.randomElement({
           filters: [filterSpy],
         })).to.throw(RangeError);
         expect(filterSpy.callCount).to.equal(3);
@@ -67,24 +74,24 @@ describe('Jabber Generator', () => {
           { isInitial }: { isInitial: boolean},
         ) => isInitial === !str.match(/f/);
         // terminal rule excludes bizz/buzz
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noZZifTerminal],
         })).to.equal('foo');
         // initial rule excludes foo
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noFifInitial],
         })).to.match(/b[iu]zz/);
         // together they eliminate all candidates
-        expect(() => new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(() => fbbGen.randomElement({
           filters: [noZZifTerminal, noFifInitial],
         })).to.throw(RangeError);
         // disabling isTerminal allows bizz/buzz
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noZZifTerminal, noFifInitial],
           isTerminal: false,
         })).to.match(/b[iu]zz/);
         // disabling isInitial allows foo
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noZZifTerminal, noFifInitial],
           isInitial: false,
         })).to.equal('foo');
@@ -95,7 +102,7 @@ describe('Jabber Generator', () => {
           str:string,
           { prefix }: { prefix: string },
         ) => str[0] !== prefix[prefix.length - 1];
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noStartWithLastChar],
           prefix: 'of',
         })).to.match(/b[iu]zz/);
@@ -104,7 +111,7 @@ describe('Jabber Generator', () => {
           str:string,
           { prefix }: { prefix: string },
         ) => (prefix.length + str.length) % 2;
-        expect(new Generator(['foo', 'bizz', 'buzz']).randomElement({
+        expect(fbbGen.randomElement({
           filters: [noEvenLength],
           prefix: 'of',
         })).to.equal('foo');
@@ -115,7 +122,10 @@ describe('Jabber Generator', () => {
   describe('randomWord', () => {
     it('Returns a word created by combining from the set of elements', () => {
       expect(generator.randomWord()).to.be.a('string').with.length.above(1);
-      expect(new Generator(['foo', 'bar']).randomWord())
+      expect(new Generator({
+        elements: ['foo', 'bar'],
+        filters: [],
+      }).randomWord())
         .to.be.a('string')
         .with.lengthOf(6)
         .and.match(/^(foo|bar){2}$/);
@@ -123,18 +133,24 @@ describe('Jabber Generator', () => {
 
     it('Takes a number of elements to generate', () => {
       expect(generator.randomWord(3)).to.be.a('string').with.length.above(2);
-      expect(new Generator(['foo', 'bar']).randomWord(3))
+      const foobarGen = new Generator({
+        elements: ['foo', 'bar'],
+        filters: [],
+      });
+      expect(foobarGen.randomWord(3))
         .to.be.a('string')
         .with.lengthOf(9)
         .and.match(/^(foo|bar){3}$/);
-      expect(new Generator(['foo', 'bar']).randomWord(5))
+      expect(foobarGen.randomWord(5))
         .to.be.a('string')
         .with.lengthOf(15)
         .and.match(/^(foo|bar){5}$/);
     });
 
     it('Passes filters with correct options', () => {
-      expect(new Generator(['fu', 'na', 'ga', 'ri']).randomWord(4, {
+      expect(new Generator({
+        elements: ['fu', 'na', 'ga', 'ri'],
+      }).randomWord(4, {
         filters: [
           (str, { isInitial }) => !isInitial || str.match(/g/), // initial element must have g
           (str, { prefix }) => !prefix.match(/a$/) || str.match(/^r/), // follow '..a' with 'r..'

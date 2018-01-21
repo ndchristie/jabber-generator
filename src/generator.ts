@@ -1,11 +1,22 @@
 import defaultElements from './default-elements';
+import defaultFilters from './default-filters';
 
 class Generator {
   seed: string;
   elements: string[];
-  constructor(elements: string[] = defaultElements) {
+  filters: Function[];
+
+  constructor({
+    elements = defaultElements,
+    filters = defaultFilters,
+  }: {
+    elements?: string[],
+    filters?: Function[],
+  } = {}) {
     this.elements = elements;
+    this.filters = filters;
   }
+
   randomElement({
     filters = [],
     prefix = '',
@@ -17,6 +28,7 @@ class Generator {
     isInitial?: boolean,
     isTerminal?: boolean,
   } = {}): string {
+    const allFilters = this.filters.concat(filters);
     const candidates = this.elements.slice();
     let candidate: string;
     do {
@@ -24,9 +36,10 @@ class Generator {
         throw new RangeError('No string could be found that passed every filter');
       }
       candidate = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
-    } while (!filters.every(filter => filter(candidate, { prefix, isInitial, isTerminal })));
+    } while (!allFilters.every(filter => filter(candidate, { prefix, isInitial, isTerminal })));
     return candidate;
   }
+
   randomWord(elementCount: number = 2, { filters = [] }: { filters?: Function[] } = {}): string {
     const rec = (togo): string => {
       const prefix = togo > 1 ? rec(togo - 1) : '';

@@ -1,0 +1,3 @@
+import noConsonantPileup from './filters/no-consonant-pileup';
+
+export default [noConsonantPileup];
