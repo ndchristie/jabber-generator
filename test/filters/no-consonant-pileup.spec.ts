@@ -3,7 +3,7 @@ import noConsonantPileup from '../../src/filters/no-consonant-pileup';
 
 describe('filters', () => {
   describe('no-consonant-pileup', () => {
-    it('Returns false if prefix ends in x consonants AND candidate begins with one', () => {
+    it('Returns false if any group of tests', () => {
       const filter = noConsonantPileup(2);
       expect(filter('kwi', { prefix: 'Avv' })).to.be.false;
       expect(filter('egg', { prefix: 'sch' })).to.be.true;
