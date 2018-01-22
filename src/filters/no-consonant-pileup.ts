@@ -1,9 +1,8 @@
-export default (
+export default (x: number = 2) => (
   candidate: string,
   { prefix }: { prefix: string },
 ) => {
-  return (
-    prefix.match(/[^aeiou]$/i) === null // if prefix ends in a consonant...
-    || candidate.match(/^[^aeiou]/i) === null // candidate can't begin with a consonant
-  );
+  const prefixTerminalConsonantCount = prefix.match(/[^aeiou]*$/i)[0].length;
+  const candidateBeginsWithVowel = candidate.match(/^[aeiou]/i) !== null;
+  return prefixTerminalConsonantCount < x || candidateBeginsWithVowel;
 };

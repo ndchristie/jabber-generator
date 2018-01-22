@@ -3,16 +3,19 @@ import noConsonantPileup from '../../src/filters/no-consonant-pileup';
 
 describe('filters', () => {
   describe('no-consonant-pileup', () => {
-    it('Returns false if the prefix ends AND the candidate begins with a consonant', () => {
-      expect(noConsonantPileup('kwi', { prefix: 'Avv' })).to.be.false;
-      expect(noConsonantPileup('gha', { prefix: 'OAK' })).to.be.false;
-      expect(noConsonantPileup('OFF', { prefix: 'ebi' })).to.be.true;
-      expect(noConsonantPileup('hua', { prefix: 'ape' })).to.be.true;
+    it('Returns false if prefix ends in x consonants AND candidate begins with one', () => {
+      const filter = noConsonantPileup(2);
+      expect(filter('kwi', { prefix: 'Avv' })).to.be.false;
+      expect(filter('egg', { prefix: 'sch' })).to.be.true;
+      expect(filter('YAY', { prefix: 'off' })).to.be.false;
+      expect(filter('gha', { prefix: 'OAK' })).to.be.true;
+      expect(filter('OFF', { prefix: 'ebi' })).to.be.true;
+      expect(filter('hua', { prefix: 'ape' })).to.be.true;
       // typical tests
-      expect(noConsonantPileup('foo', { prefix: 'bar' })).to.be.false;
-      expect(noConsonantPileup('foo', { prefix: 'foo' })).to.be.true;
-      expect(noConsonantPileup('bar', { prefix: 'bar' })).to.be.false;
-      expect(noConsonantPileup('bar', { prefix: 'foo' })).to.be.true;
+      expect(filter('foo', { prefix: 'bar' })).to.be.true;
+      expect(filter('foo', { prefix: 'foo' })).to.be.true;
+      expect(filter('bar', { prefix: 'bar' })).to.be.true;
+      expect(filter('bar', { prefix: 'foo' })).to.be.true;
     });
   });
 });
