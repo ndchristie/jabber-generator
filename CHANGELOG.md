@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ndchristie/jabber-generator/compare/v0.1.0...v0.2.0) (2018-01-22)
+
+
+### Features
+
+* Add configurable consistent-glyphs filter ([045a46f](https://github.com/ndchristie/jabber-generator/commit/045a46f))
+* Add reject-matches default filter ([5f5166a](https://github.com/ndchristie/jabber-generator/commit/5f5166a))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2018-01-22)
 
