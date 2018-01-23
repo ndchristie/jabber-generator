@@ -1,21 +1,29 @@
 import defaultElements from './default-elements';
 import defaultFilters from './default-filters';
+import defaultTransformations from './default-transformations';
 
 class Generator {
   seed: string;
   elements: string[];
   filters: Function[];
+  transformations: Function[];
 
   constructor({
     elements = defaultElements,
     filters = defaultFilters,
+    transformations = defaultTransformations,
   }: {
     elements?: string[],
     filters?: Function[],
+    transformations?: Function[],
   } = {}) {
     this.elements = elements;
     this.filters = [];
     filters.forEach(filter => this.addFilter(filter));
+    this.transformations = [];
+    transformations.forEach(
+      transformation => this.addTransformation(transformation),
+    );
   }
 
   addFilter(filter: Function) {
@@ -25,6 +33,10 @@ class Generator {
     } catch (e) {
       console.warn(e);
     }
+  }
+
+  addTransformation(transformation: Function) {
+    this.transformations.push(transformation);
   }
 
   randomElement({
@@ -42,11 +54,11 @@ class Generator {
     const candidates = this.elements.slice();
     let candidate: string;
     do {
-      if (candidates.length === 0) {
-        throw new RangeError('No element passed every filter');
-      }
+      if (!candidates.length) throw new RangeError('No candidates remain to test');
       candidate = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
-    } while (!allFilters.every(filter => filter(candidate, { prefix, isInitial, isTerminal })));
+    } while (allFilters.some( // try again if any filters fail
+      filter => !filter(candidate, { prefix, isInitial, isTerminal }),
+    ));
     return candidate;
   }
 
@@ -57,7 +69,15 @@ class Generator {
       const isTerminal = togo === elementCount;
       return prefix + this.randomElement({ filters, prefix, isInitial, isTerminal });
     };
-    return rec(elementCount);
+    const untransformed = rec(elementCount);
+    return this.transform(untransformed);
+  }
+
+  transform(untransformed: string = '') {
+    return this.transformations.reduce(
+      (acc, func: Function) => func(acc),
+      untransformed,
+    );
   }
 }
 
