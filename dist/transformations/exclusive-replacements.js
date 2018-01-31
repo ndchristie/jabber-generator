@@ -7,11 +7,12 @@ exports.default = function () {
     }
     return function (untransformed) {
         for (var i = 0; i < pairs.length; i += 1) {
-            var transformed = untransformed.replace(pairs[i][0], pairs[i][1]);
-            if (transformed !== untransformed)
-                return transformed;
+            var match = untransformed.match(pairs[i][0]);
+            if (match !== null && match.length > 0) {
+                return untransformed.replace(pairs[i][0], pairs[i][1]);
+            }
         }
         return untransformed;
     };
 };
-//# sourceMappingURL=exclusive-replacement.js.map
+//# sourceMappingURL=exclusive-replacements.js.map

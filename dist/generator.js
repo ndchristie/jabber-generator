@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var default_elements_1 = require("./default-elements");
 var default_filters_1 = require("./default-filters");
-var default_transformations_1 = require("./default-transformations");
+var default_transformations_1 = require("./transformations/default-transformations");
 var Generator = /** @class */ (function () {
     function Generator(_a) {
         var _b = _a === void 0 ? {} : _a, _c = _b.elements, elements = _c === void 0 ? default_elements_1.default : _c, _d = _b.filters, filters = _d === void 0 ? default_filters_1.default : _d, _e = _b.transformations, transformations = _e === void 0 ? default_transformations_1.default : _e;

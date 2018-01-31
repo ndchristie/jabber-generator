@@ -1,6 +1,6 @@
 import defaultElements from './default-elements';
 import defaultFilters from './default-filters';
-import defaultTransformations from './default-transformations';
+import defaultTransformations from './transformations/default-transformations';
 
 class Generator {
   seed: string;
