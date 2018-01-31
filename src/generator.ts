@@ -1,45 +1,67 @@
-import defaultElements from './default-elements';
-import defaultFilters from './default-filters';
-import defaultTransformations from './transformations/default-transformations';
-
 class Generator {
   seed: string;
   elements: string[];
   filters: Function[];
-  transformations: Function[];
+  transforms: Function[];
 
-  constructor({
-    elements = defaultElements,
-    filters = defaultFilters,
-    transformations = defaultTransformations,
+  constructor(module: object) {
+    this.elements = [];
+    this.filters = [];
+    this.transforms = [];
+    this.addModule(module);
+  }
+
+  addModule({
+    modules = [],
+    elements = [],
+    filters = [],
+    transforms = [],
   }: {
+    modules?: object[],
     elements?: string[],
     filters?: Function[],
-    transformations?: Function[],
-  } = {}) {
-    this.elements = elements;
-    this.filters = [];
-    filters.forEach(filter => this.addFilter(filter));
-    this.transformations = [];
-    transformations.forEach(
-      transformation => this.addTransformation(transformation),
-    );
+    transforms?: Function[],
+  }) {
+    this.addModules(modules);
+    this.addElements(elements);
+    this.addFilters(filters);
+    this.addTransforms(transforms);
+  }
+
+  addModules(modules: object[]) {
+    modules.forEach(module => this.addModule(module));
+  }
+
+  addElement(element: string) {
+    this.addElements([element]);
+  }
+
+  addElements(elements: string[]) {
+    this.elements.push(...elements);
   }
 
   addFilter(filter: Function) {
-    this.filters.push(filter);
+    this.addFilters([filter]);
+  }
+
+  addFilters(filters: Function[]) {
+    this.filters.push(...filters);
     try {
-      this.randomElement();
+      this.getElement();
     } catch (e) {
       console.warn(e);
     }
   }
 
-  addTransformation(transformation: Function) {
-    this.transformations.push(transformation);
+  addTransform(transform: Function) {
+    this.addTransforms([transform]);
   }
 
-  randomElement({
+  addTransforms(transforms: Function[]) {
+    this.transforms.push(...transforms);
+  }
+
+  getElement({
     filters = [],
     prefix = '',
     isInitial = true,
@@ -62,20 +84,25 @@ class Generator {
     return candidate;
   }
 
-  randomWord(elementCount: number = 2, { filters = [] }: { filters?: Function[] } = {}): string {
+  getWord(
+    elementCount: number = 2,
+    {
+      filters = [],
+      transforms = [],
+    }: {
+      filters?: Function[],
+      transforms?: Function[],
+    } = {}): string {
     const rec = (togo): string => {
       const prefix = togo > 1 ? rec(togo - 1) : '';
       const isInitial = togo === 1;
       const isTerminal = togo === elementCount;
-      return prefix + this.randomElement({ filters, prefix, isInitial, isTerminal });
+      return prefix + this.getElement({ filters, prefix, isInitial, isTerminal });
     };
     const untransformed = rec(elementCount);
-    return this.transform(untransformed);
-  }
-
-  transform(untransformed: string = '') {
-    return this.transformations.reduce(
-      (acc, func: Function) => func(acc),
+    const allTransforms = this.transforms.concat(transforms);
+    return allTransforms.reduce(
+      (str: string, transform: Function) => transform(str),
       untransformed,
     );
   }
