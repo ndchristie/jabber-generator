@@ -13,8 +13,9 @@
     "ts-node/register"
   ],
   "reporter": [
-    "json",
-    "html"
+    "html",
+    "lcov",
+    "text-summary"
   ],
   "report-dir": "test/coverage",
   "all": true

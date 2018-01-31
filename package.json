@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive -r ts-node/register test/*.spec.ts test/**/*.spec.ts",
-    "cover": "NODE_ENV=test nyc npm test",
+    "test": "NODE_ENV=test nyc mocha --recursive -r ts-node/register test/*.spec.ts test/**/*.spec.ts",
     "lint": "tslint src/**/*.ts --project tsconfig.json",
     "build": "npm run lint && rm -rf dist/* && tsc --project tsconfig.json",
     "release": "npm run build && standard-version"
