@@ -1,6 +1,6 @@
 {
   "name": "jabber-generator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A flexible, extensible fantasy word generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

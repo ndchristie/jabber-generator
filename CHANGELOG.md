@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/ndchristie/jabber-generator/compare/v0.2.0...v0.3.0) (2018-02-07)
+
+
+### Features
+
+* Add additional default filters to reject difficult sounds ([c35b651](https://github.com/ndchristie/jabber-generator/commit/c35b651))
+* Add modules to generator and remove lingering references to defaults ([6218dfa](https://github.com/ndchristie/jabber-generator/commit/6218dfa))
+* Add post-generation transformations and registration, with default geared towards English ([fdb0caa](https://github.com/ndchristie/jabber-generator/commit/fdb0caa))
+* Expose factories and exempt index from testing ([03e9927](https://github.com/ndchristie/jabber-generator/commit/03e9927))
+* Refine, reorganize and cover default (English) transformations ([2d44950](https://github.com/ndchristie/jabber-generator/commit/2d44950))
+* Remove default filters and reorganize filter function factories ([fb71d87](https://github.com/ndchristie/jabber-generator/commit/fb71d87))
+* Remove default transforms and reogranize transform function factories ([9489bb6](https://github.com/ndchristie/jabber-generator/commit/9489bb6))
+* Remove unnecessary functions / dependencies and build reorganized structure ([59d2a85](https://github.com/ndchristie/jabber-generator/commit/59d2a85))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/ndchristie/jabber-generator/compare/v0.1.0...v0.2.0) (2018-01-22)
 
