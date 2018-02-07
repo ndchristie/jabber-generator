@@ -1,7 +1,7 @@
 {
   "name": "jabber-generator",
   "version": "0.2.0",
-  "description": "A fantasy generator",
+  "description": "A flexible, extensible fantasy word generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,9 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/ndchristie/jabber-generator.git"
   },
-  "dependencies": {
-    "random-seed": "^0.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.1",
     "@types/mocha": "^2.2.46",
@@ -39,5 +37,12 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/ndchristie/jabber-generator/issues"
+  },
+  "homepage": "https://github.com/ndchristie/jabber-generator#readme",
+  "directories": {
+    "test": "test"
   }
 }

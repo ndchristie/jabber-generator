@@ -11,4 +11,4 @@ exports.default = function () {
         return !tests.some(function (t) { return potentialResult.match(t) !== null; }); // reject any match
     };
 };
-//# sourceMappingURL=reject-matches.js.map
+//# sourceMappingURL=filter-matches.js.map
