@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = function () {
+exports.default = (function () {
     var tests = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         tests[_i] = arguments[_i];
@@ -10,5 +10,5 @@ exports.default = function () {
         var potentialResult = prefix + candidate;
         return !tests.some(function (t) { return potentialResult.match(t) !== null; }); // reject any match
     };
-};
+});
 //# sourceMappingURL=filter-matches.js.map

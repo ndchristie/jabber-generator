@@ -56,7 +56,7 @@ var Generator = /** @class */ (function () {
             candidate = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0];
         } while (allFilters.some(// try again if any filters fail
         function (// try again if any filters fail
-            filter) { return !filter(candidate, { prefix: prefix, isInitial: isInitial, isTerminal: isTerminal }); }));
+        filter) { return !filter(candidate, { prefix: prefix, isInitial: isInitial, isTerminal: isTerminal }); }));
         return candidate;
     };
     Generator.prototype.getWord = function (elementCount, _a) {

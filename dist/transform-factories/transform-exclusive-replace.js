@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = function () {
+exports.default = (function () {
     var pairs = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         pairs[_i] = arguments[_i];
@@ -14,5 +14,5 @@ exports.default = function () {
         }
         return untransformed;
     };
-};
+});
 //# sourceMappingURL=transform-exclusive-replace.js.map
